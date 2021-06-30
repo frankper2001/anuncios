@@ -3,7 +3,11 @@
 @section('titulo', 'Listado de anuncios')
 
 @section('contenido')
-
+    <form method="POST" action="{{route('anuncios.search')}}" class="d-flex flex-row mb-2">
+        {{csrf_field()}}
+        <input name="titulo" type="text" class="form-control form-control-sm" placeholder="Buscar por titulo" maxlength="16"  value="{{empty($titulo)? '': $titulo}}">
+        <button type="submit" class="col btn btn-primary m-2">Buscar</button>
+    </form>
     <div class="row">
         <div class="col-6 text-star">{{ $anuncios->links() }}</div>
         @auth

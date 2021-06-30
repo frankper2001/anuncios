@@ -29,7 +29,7 @@ class AnuncioController extends Controller
      */
     public function index()
     {
-        $anuncios = Anuncio::orderBy('id', 'DESC')->paginate(10);
+        $anuncios = Anuncio::orderBy('id', 'DESC')->paginate(20);
 
         return view('anuncios.list', ['anuncios'=>$anuncios]);
     }
@@ -51,12 +51,12 @@ class AnuncioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AnuncioStoreRequest $request)
     {
         //validar datos de entrada con validator
-        $request->validate([
+       // $request->validate([
             // la validacion ahora esta en app/Html/Request/TaskStoreRequest LAR17->72
-        ]);
+       // ]);
 
          //recuperar datos del formulario excepto la imagen
          $datos = $request->only(['titulo','descripcion','precio']);
@@ -197,7 +197,17 @@ class AnuncioController extends Controller
     }
 
     // pendiente search
-    public function search(){
-        //
+    public function search(Request $request){
+        $request->validate([
+            'titulo' => 'max:16'
+        ]);
+        
+        $titulo = $request->input('titulo','');
+
+        //realiza la consulta
+        $anuncios = Anuncio::where('titulo','like',"%$titulo%")
+                        ->paginate(10)
+                        ->appends(['titulo'=>$titulo]);
+        return view('anuncios.list', ['anuncios'=>$anuncios, 'titulo'=>$titulo]);
     }
 }

@@ -23,8 +23,8 @@ class AnuncioStoreRequest extends FormRequest
      */
     public function rules()
     {
-        return ['titulo' => 'required|max:255',
-        'descripcion' => 'required|max:255',
+        return ['titulo' => 'required|min:3|max:255',
+        'descripcion' => 'required|min:3|max:255',
         'precio' => 'required|numeric|min:0',
         'imagen' => 'sometimes|file|image|mimes:jpg,png,gif,webp|max:2048'];;
     }

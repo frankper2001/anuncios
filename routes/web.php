@@ -25,6 +25,9 @@ Auth::routes(['verify'=>false]);
 //PORTADA
 Route::get('/', [WelcomeController::class, 'index'])->name('portada');
 
+//SEARCH por titulo
+Route::match(['get','post'],'anuncios/search/{titulo?}',[AnuncioController::class, 'search'])->name('anuncios.search');
+
 // CRUD de anuncios
 Route::resource('anuncios',AnuncioController::class);
 
